@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Числа</title>
+	    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	    <script type="text/javascript" src="graph3d.js"></script>
+
+	        <script type="text/javascript">
+        var data = null;
+        var graph = null;
+
+        google.load("visualization", "1");
+
+        // Set callback to run when API is loaded
+        google.setOnLoadCallback(drawVisualization);
+
+        function custom(x, y) {
+            return (x+y)/(Math.sqrt(x)+Math.pow(y, 2)-1);
+        }
+
+        // Called when the Visualization API is loaded.
+        function drawVisualization() {
+            // Create and populate a data table.
+            data = new google.visualization.DataTable();
+            data.addColumn('number', 'x');
+            data.addColumn('number', 'y');
+            data.addColumn('number', 'z');
+
+            // create some nice looking data
+            for (var x = 0.6; x < 2; x+=1.4/100) {
+                for (var y = 1; y < 3; y+=2/100) {
+                    var value = custom(x,y);
+                    data.addRow([x, y, value]);
+                }
+            }
+
+            // specify options
+            options = {width:  "400px",
+                height: "400px",
+                style: "surface",
+                showPerspective: true,
+                showGrid: true,
+                showShadow: false,
+                keepAspectRatio: true,
+                verticalRatio: 0.5
+            };
+
+            // Instantiate our graph object.
+            graph = new links.Graph3d(document.getElementById('mygraph'));
+
+            // Draw our graph with the created data and options
+            graph.draw(data, options);
+        }
+    </script>
+    </head>
+    <body>
+        <h1>Вот как-то так</h1>
+   		<div id="mygraph"></div>
+
+	</body>
+</html>
